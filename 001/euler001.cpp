@@ -14,6 +14,7 @@ long long f(int a, long long x) {
     long long l = 0, r = x - x % a;
     return (l + r) * (r / a + 1) >> 1;
 }
+
 int main() {
     cin >> cas;
     while (cas--) {

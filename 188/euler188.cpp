@@ -11,8 +11,6 @@
 using namespace std;
 
 const long long test[] = {3, 7, 17, 31, 41, 47, 43, 65537, 1000000007, 1000000009};
-int cas;
-long long a, b, mod;
 vector<long long> prime;
 
 inline long long quick_mul(long long a, long long b, const long long &mod) {/*{{{*/
@@ -50,8 +48,8 @@ inline bool miller_rabin(const long long &n) {/*{{{*/
         return true;
     if (n < 2 || (n & 1) == 0)
         return false;
-    for (auto prime: test)
-        if (!witness(prime, n))
+    for (auto p: test)
+        if (!witness(p, n))
             return false;
     return true;
 }/*}}}*/
@@ -116,10 +114,12 @@ inline long long phi(const long long &m) {/*{{{*/
 
 }/*}}}*/
 inline long long work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
-    if (b == 1)
-        return a % mod;
+    if (b == 0)
+        return 1;
     return (mod > 1) ? quick_pow(a, work(a, b - 1, phi(mod)), mod) : 0;
 }/*}}}*/
+int cas;
+long long a, b, mod;
 int main() {/*{{{*/
     cin >> cas;
     while (cas--) {
