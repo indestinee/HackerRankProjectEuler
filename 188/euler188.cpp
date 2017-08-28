@@ -108,13 +108,37 @@ inline long long phi(const long long &m) {/*{{{*/
     return q;
 
 }/*}}}*/
-inline long long work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
+
+inline pair<long long, long long> work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
     if (mod == 1)
-        return 0;
+        return make_pair(0, 0);
     if (b == 0)
-        return 1;
-    auto p = phi(mod);
-    return quick_pow(a, work(a, b - 1, p) + p, mod);
+        return make_pair(1, 1);
+    long long p = phi(mod);
+    auto res = work(a, b - 1, p);
+    long long first = res.first, second = res.second, j = 1, delta = 0;
+
+    for (int i = 0; i < second; i++) {
+        if (mod / a >= j) {
+            j *= a;
+        } else {
+            delta = p; 
+            break;
+        }
+    }
+    if (second < 64) {
+        j = 1;
+        for (int i = 0; i < second; i++) {
+            if (64 / a >= j) {
+                j *= a;
+            } else {
+                j = 64;
+                break;
+            }
+        }
+        second = j;
+    }
+    return make_pair(quick_pow(a, first + delta, mod), second);
 }/*}}}*/
 int cas;
 long long a, b, mod;
@@ -122,7 +146,11 @@ int main() {/*{{{*/
     cin >> cas;
     while (cas--) {
         cin >> a >> b >> mod;
-        cout << work(a, b, mod) << endl;
+        if (a == 1) {
+            cout << a % mod << endl;
+        } else {
+            cout << work(a, b, mod).first << endl;
+        }
     }
     return 0;
 }/*}}}*/
