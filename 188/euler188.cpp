@@ -108,36 +108,38 @@ inline long long phi(const long long &m) {/*{{{*/
     return q;
 
 }/*}}}*/
-
-inline pair<long long, long long> work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
-    if (mod == 1)
-        return make_pair(0, 0);
-    if (b == 0)
-        return make_pair(1, 1);
-    long long p = phi(mod);
-    auto res = work(a, b - 1, p);
-    long long first = res.first, second = res.second, j = 1, delta = 0;
-
-    for (int i = 0; i < second; i++) {
-        if (mod / a >= j) {
+inline long long pow(const long long &a, const long long &b, const long long &maxi) {/*{{{*/
+    long long j = 1;
+    for (long long i = 0; i < b; i++) {
+        if (maxi / a >= j) {
             j *= a;
         } else {
-            delta = p; 
-            break;
+            return maxi;
         }
     }
-    if (second < 64) {
-        j = 1;
-        for (int i = 0; i < second; i++) {
-            if (64 / a >= j) {
-                j *= a;
-            } else {
-                j = 64;
-                break;
-            }
-        }
-        second = j;
-    }
+    return j;
+}/*}}}*/
+inline long long work(const long long &a, const long long &b) {/*{{{*/
+    long long j = 1;
+    for (long long i = 0; i < b; i++)
+        if ((j = pow(a, j, 64)) == 64)
+            return j;
+    return j;
+}/*}}}*/
+
+inline pair<long long, long long> work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
+    if (b == 1)
+        return make_pair(a % mod, 1);
+    if (mod == 1)
+        return make_pair(0, work(a, b - 1));
+    
+    long long p = phi(mod);
+    auto res = work(a, b - 1, p);
+    long long first = res.first, second = res.second, delta = (pow(a, second, mod) == mod) ? p : 0;
+    if (second < 64)
+        second = pow(a, second, 64);
+    /* cout << res.first << " " << res.second << endl; */
+    /* cout << a << " " << first << " " << delta << " " << mod << endl; */
     return make_pair(quick_pow(a, first + delta, mod), second);
 }/*}}}*/
 int cas;
