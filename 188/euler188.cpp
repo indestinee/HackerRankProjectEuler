@@ -104,19 +104,17 @@ inline long long phi(const long long &m) {/*{{{*/
     long long q = 1;
     for (int j = 0; j < int(prime.size()); j++)
         q *= prime[j] - (j == 0 || prime[j] != prime[j - 1]);
-    /* cout << "#phi " << q << " " << brute_force(m) << endl; */
-    /* if (q != brute_force(m)) { */
-    /*     cout << m << endl; */
-    /*     while(1); */
-    /* } */
     prime.clear();
     return q;
 
 }/*}}}*/
 inline long long work(const long long &a, const long long &b, const long long &mod) {/*{{{*/
+    if (mod == 1)
+        return 0;
     if (b == 0)
         return 1;
-    return (mod > 1) ? quick_pow(a, work(a, b - 1, phi(mod)), mod) : 0;
+    auto p = phi(mod);
+    return quick_pow(a, work(a, b - 1, p) + p, mod);
 }/*}}}*/
 int cas;
 long long a, b, mod;
