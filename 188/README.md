@@ -2,5 +2,5 @@
 #main algorithm: 
     0. Euler's theorem
     1. Miller-Rabin
-    2. Pollard_Rho
+    2. Pollard-Rho
     3. Euler's function
