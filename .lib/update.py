@@ -14,7 +14,7 @@ with open(index + '/README.md', 'w') as f:
         f.write('\
 #<a href=\'%s\'> Problem Link </a>\n\
 #main algorithm: \n\
-	0. \
+    0. \
 ' % url);
 
 
