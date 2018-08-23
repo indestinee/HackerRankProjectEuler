@@ -12,8 +12,8 @@ if not os.path.isdir(index):
 # if not os.path.isfile(index):
 with open(index + '/README.md', 'w') as f:
         f.write('\
-#<a href=\'%s\'> Problem Link </a>\n\
-#main algorithm: \n\
+# <a href=\'%s\'> Problem Link </a>\n\
+# main algorithm: \n\
     0. \
 ' % url);
 
